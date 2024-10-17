@@ -1,50 +1,42 @@
-let fonditoDeColorin;
-let pelotas = [];
+let posX, posY;
+let velX, velY;
+let diam;
+let rad;
+let bg;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  fonditoDeColorin = color(random(10, 25), random(100, 150), random(255));
-  for (let i = 0; i < 100; i++) {
-    let nuevaPelota = new Pelota();
-    pelotas.push(nuevaPelota);
-  }
+
+  rad = ceil(random(5, 50));
+  diam = rad * 2;
+
+  posX = random(rad, width - rad);
+  posY = random(rad, height - rad);
+
+  velX = random(-10, 10);
+  velY = random(-10, 10);
+
+  bg = color(random(100, 255), random(50), random(0, 100));
 }
 
 function draw() {
-  background(fonditoDeColorin);
-  for (let i = 0; i < 100; i++) {
-    pelotas[i].update();
-    pelotas[i].display();
-  }
-}
+  background(bg);
+  fill(255);
+  noStroke();
 
-class Pelota {
-  //únicamente en el objeto pelota
-  constructor() {
-    this.rad = ceil(random(5, 30));
-    this.diam = this.rad * 2;
-    this.posX = random(this.rad, width - this.rad);
-    this.posY = random(this.rad, height - this.rad);
-    this.velX = random(-10, 10);
-    this.velY = random(-10, 10);
-    console.log("estoy viaaaaa!");
-  }
-  // método update
-  update() {
-    this.posX += this.velX;
-    this.posY += this.velY;
+  posX += velX;
+  posY += velY;
 
-    if (this.posX > width - this.rad || this.posX < this.rad) {
-      this.velX *= -1;
-    }
-    if (this.posY > height - this.rad || this.posY < this.rad) {
-      this.velY *= -1;
-    }
+  // & y || o
+
+  if (posX > width - rad || posX < rad) {
+    velX *= -1;
+    bg = color(random(100, 255), random(50), random(0, 100));
+  }
+  if (posY > height - rad || posY < rad) {
+    velY *= -1;
+    bg = color(random(100, 255), random(50), random(0, 100));
   }
 
-  display() {
-    fill(255);
-    noStroke();
-    circle(this.posX, this.posY, this.diam);
-  }
+  circle(posX, posY, diam);
 }
